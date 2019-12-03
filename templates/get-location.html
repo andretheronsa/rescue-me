@@ -1,28 +1,13 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <div id="output"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-3.4.1.slim.min.js"%3E%3C/script%3E'))</script>
+    <script src="static/js/location.js"></script>
+  </head>
   <body>
-      <div id="output"></div>
-      <script type = "text/javascript">
-        var output = document.getElementById('output')
-        function showLocation(position) {
-            output.innerHTML = "Latitude : " + position.coords.latitude + "<br>Longitude: " +  position.coords.longitude;
-        }
-        function errorHandler(err) {
-            if(err.code == 1) {
-              output.innerHTML = "Error: Access is denied!";
-            } else if( err.code == 2) {
-              output.innerHTML = "Error: Position is unavailable!";
-            }
-        }
-        function getLocation() {
-            if(navigator.geolocation) {
-              var options = {timeout:60000};
-              navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-            } else {
-              output.innerHTML = "Sorry, browser does not support geolocation!";
-            }
-        }
-        window.onload = getLocation;
-       </script>  
+      <p>Lat {{lat}}</p>
+      <p>Lon {{lon}}</p>
   </body>
 </html>
