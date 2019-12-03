@@ -8,7 +8,8 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def get_location():
     if request.method == 'POST':
-        lat = lon = request.args.get("latitude")
+        lat = request.args.get("latitude")
+        lon = request.args.get("longitude")
     else:
         lat = lon = 0
     return render_template("get-location.html", lat = lat, lon = lat)

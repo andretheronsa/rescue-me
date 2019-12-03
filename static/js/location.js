@@ -2,7 +2,8 @@ var output = document.getElementById('output')
 function showLocation(position) {
     var latitude = position.coords.latitude
     var longitude = position.coords.longitude
-    output.innerHTML = "Latitude : " + latitude + "<br>Longitude: " + longitude;
+    output.innerHTML = "Latitude : " + latitude + "Longitude: " + longitude;
+    sendPost;
 }
 function errorHandler(err) {
     if(err.code == 1) {
