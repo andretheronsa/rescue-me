@@ -1,0 +1,1 @@
+RescueMe is an interactive dashboard to display current rescue data on a nice viewer
