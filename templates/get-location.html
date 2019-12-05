@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <title>RescueMe</title>
       <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-icon-57x57.png">
       <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-icon-60x60.png">
       <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-icon-72x72.png">
@@ -20,12 +21,12 @@
       <meta name="theme-color" content="#ffffff">
   </head>
   <body>
-      <meta http-equiv="refresh" content="30">
+      <meta http-equiv="refresh" content="300">
       <div id="output"></div>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-3.4.1.slim.min.js"%3E%3C/script%3E'))</script>
       <script src="static/js/location.js"></script>
       <p>Latitude (server): {{lat}} <br>Longitude (server): {{lon}}</p>
-      <p>Debug (server): {{debug}}</p>
+      <p>Debugging: {{debug}}</p>
   </body>
 </html>
