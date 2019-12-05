@@ -1,9 +1,7 @@
 var output = document.getElementById('output')
 function showLocation(position) {
-    var latitude = position.coords.latitude
-    var longitude = position.coords.longitude
-    output.innerHTML = "Latitude : " + latitude + "<br>Longitude: " + longitude;
-    sendPost;
+    output.innerHTML = "Latitude (client): " + position.coords.latitude + "<br>Longitude (client): " + position.coords.longitude;
+    sendPost(position);
 }
 function errorHandler(err) {
     if(err.code == 1) {
@@ -20,12 +18,11 @@ function getLocation() {
       output.innerHTML = "Sorry, browser does not support geolocation!";
     }
 }
-function sendPost() {
+function sendPost(position) {
     $.ajax({
         type: "POST",
         url: '/',
-        data: {"latitude": latitude, "longitude": longitude},
-        success: success
+        data: {"latitude": position.coords.latitude, "longitude": position.coords.longitude},
     });
 }
-window.onload = getLocation;
+window.onload = getLocation();
