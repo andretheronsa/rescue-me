@@ -12,8 +12,8 @@ def get_location():
         lon = request.args.get("longitude")
     else:
         lat = lon = 0
-    return render_template("get-location.html", lat = lat, lon = lat)
+    return render_template("get-location.html", lat = lat, lon = lon)
 
 # Run server
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5002, ssl_context='adhoc')
