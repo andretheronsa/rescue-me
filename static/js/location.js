@@ -38,8 +38,9 @@ function startMonitoring(){
   }
   // Send location to server
   function sendLocation(position) {
-      $.ajax({
-          type: "POST",
+    $(document).ready(function() {
+      jQuery.ajax({
+          method: "POST",
           url: '/',
           data: {
             "latitude": position.coords.latitude,
@@ -50,8 +51,8 @@ function startMonitoring(){
             "speed": position.coords.speed,
             "heading": position.coords.heading,
             "timeStamp": position.timestamp
-          }
-      });
+      }})
+    });
   }
   // Map location - mabquest gives 15000 free request per month
   function mapLocation(position) {
@@ -62,3 +63,4 @@ function startMonitoring(){
   // Run script
   monitorLocation();
 }
+
