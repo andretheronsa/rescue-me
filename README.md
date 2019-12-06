@@ -23,7 +23,7 @@ RescueMe is an interactive dashboard to display current rescue data on a nice vi
 **Solution**
 * RescueMe browser tracking tool that runs in the cloud (app only spins up when accessed)
 * Rescuer gets unique url from server and sends to patient
-* Patient clicks link and accepts location tracking (only input needed from patient side)
+* Patient clicks link, presses a button to start monitoring and accepts location tracking (only input needed from patient side)
 * Rescuers now have access to a map and table of patient data on the server including:
     - Latitude (decimal degrees rounded to 5 places (~1m) relative to WGS84)
     - Longitude (decimal degrees rounded to 5 places (~1m) relative to WGS84)
