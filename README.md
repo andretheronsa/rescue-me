@@ -25,10 +25,10 @@ RescueMe is an interactive dashboard to display current rescue data on a nice vi
 * Rescuer gets unique url from server and sends to patient
 * Patient clicks link and accepts location tracking (only input needed from patient side)
 * Rescuers now have access to a map and table of patient data on the server including:
-    - Latitude (decimal degrees rounded to 5 places (~1m))
-    - Longitude (decimal degrees rounded to 5 places (~1m))
+    - Latitude (decimal degrees rounded to 5 places (~1m) relative to WGS84)
+    - Longitude (decimal degrees rounded to 5 places (~1m) relative to WGS84)
     - Position accuracy (meters)
-    - Altitude (meters)
+    - Altitude (meters above the ellipsoid (~30m out in the cape))
     - Altidude accuracy (meters)
     - Speed (meters per second)
     - Heading (degrees)
