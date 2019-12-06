@@ -2,13 +2,13 @@ var output = document.getElementById('output')
 function showLocation(position) {
     console.log("Updated position")
     output.innerHTML = 
-      "Latitude (decimal degrees): " + position.coords.latitude + 
-      "<br>Longitude (decimal degrees): " + position.coords.longitude +
-      "<br>Position accuracy (meters): " + position.coords.accuracy +
-      "<br>Altitude (meters): " + position.coords.altitude + 
-      "<br>Altitude accuracy (meters): " + position.coords.altitudeAccuracy +
-      "<br>Speed (meters per second): " + position.coords.speed + 
-      "<br>Heading (Degrees clockwise from North = 0): " + position.coords.heading;
+      "Latitude (decimal degrees): " + position.coords.latitude.toFixed(5) + 
+      "<br>Longitude (decimal degrees): " + position.coords.longitude.toFixed(5) +
+      "<br>Position accuracy (meters): " + position.coords.accuracy.round() +
+      "<br>Altitude (meters): " + position.coords.altitude.round() + 
+      "<br>Altitude accuracy (meters): " + position.coords.altitudeAccuracy.round() +
+      "<br>Speed (meters per second): " + position.coords.speed.round() + 
+      "<br>Heading (Degrees clockwise from North = 0): " + position.coords.heading.round();
     sendPost(position);
 }
 function errorHandler(err) {
