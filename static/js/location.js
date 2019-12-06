@@ -53,8 +53,8 @@ function sendLocation(position) {
 }
 // Map location - mabquest gives 15000 free request per month
 function mapLocation(position) {
-  var latlon = position.coords.latitude + "," + position.coords.longitude;
-  var img_url = "https://open.mapquestapi.com/staticmap/v4/getmap?key=LqB1YG0GLcAp3PyV3W9g8mEx2kjZJOjD&size=600,400&zoom=15&center="+latlon;
+  var lonlat = position.coords.longitude + "," + position.coords.latitude;
+  var img_url = "https://static-maps.yandex.ru/1.x/?lang=en-US&ll="+lonlat+"&z=17&l=sat&size=600,300";
   document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
 }
 // Run script
