@@ -1,8 +1,14 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 # Init app
 app = Flask(__name__)
+
+# Init db
+app.config.from_object(os.environ['APP_SETTINGS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 # Login screen 
 @app.route("/")
