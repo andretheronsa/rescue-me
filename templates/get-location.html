@@ -2,6 +2,7 @@
 <html>
   <head>
       <title>RescueMe</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
       <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-icon-57x57.png">
       <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-icon-60x60.png">
       <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-icon-72x72.png">
@@ -31,11 +32,11 @@
       <script>
         function change() {
               var elem = document.getElementById("monitor_button");
-              if (elem.value=="false") elem.value = "true", elem.innerHTML='Stop monitoring', monitoring("true");
-              else elem.value = "false", elem.innerHTML='Start monitoring', monitoring("false");
+              var id = 0
+              if (elem.value=="false") elem.value = "true", elem.innerHTML='Stop monitoring', monitoring();
+              else elem.value = "false", elem.innerHTML='Start monitoring', stopMonitoring(id);
           }
       </script>
-      <p>Latitude (server): {{lat}} <br>Longitude (server): {{lon}}</p>
-      <p>Location will be sent until page is closed</p>
+      <p>Debug: {{debug}}</p>
   </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 # Init app
@@ -6,30 +6,17 @@ app = Flask(__name__)
 
 # Login screen 
 @app.route("/")
-def index():
-    pass
-    return render_template("")
-
-# Login screen 
-@app.route("/login")
 def login():
     return render_template("login.html")
-
-# Generate a link for user
-@app.route("/generate-link")
-def generate_link():
-    pass
-    return render_template("")
 
 # Main tracking routing
 @app.route("/tracking", methods=['GET', 'POST'])
 def get_location():
-    if request.method == 'POST':
-        lat = request.args.get("latitude")
-        lon = request.args.get("longitude")
-    else:
-        lat = lon = 0
-    return render_template("get-location.html", lat = lat, lon = lon)
+    ip = request.remote_addr
+    if request.method == "POST":
+        data = request.get_json(force=True)
+        print(type(data), data)
+    return render_template("get-location.html", debug = ip)
 
 # Monitor patients database and map
 @app.route("/dashboard")
@@ -39,4 +26,4 @@ def dashboard():
 
 # Run server
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
