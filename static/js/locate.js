@@ -60,7 +60,7 @@ function locate(){
       "&scale=2&"+
       "size=600x300&"+
       "maptype=hybrid&"+
-      "key=AIzaSyAYSB81PbdORCW-cHPGHYxKoff3NYeg4w4&"+
+      "key="{{GOOGLE_API}}+
       "format=png&"+
       "visual_refresh=true&"+
       "markers=size:small%7Ccolor:0xff0000%7Clabel:X%7C"+latlon;

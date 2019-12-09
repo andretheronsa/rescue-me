@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
+GOOGLE_API=os.environ.get("GOOGLE_API")
 
 # Main tracking routing
 @app.route("/", methods=['GET', 'POST'])
@@ -24,7 +25,7 @@ def get_location():
             print(e)
             sys.stdout.flush()
         print(type(data), data)
-    return render_template("get-location.html", debug = ip)
+    return render_template("get-location.html", GOOGLE_API=GOOGLE_API, debug=ip)
 
 # Login screen 
 @app.route("/login", methods=['GET', 'POST'])
