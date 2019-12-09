@@ -54,13 +54,14 @@ function locate(){
   }
   function mapLocation(position) {
     var latlon = position.coords.latitude + "," + position.coords.longitude;
+    var GOOGLE_API = '{{ GOOGLE_API }}'
     var img_url = "https://maps.googleapis.com/maps/api/staticmap?"+
       "center="+latlon+"&"+
       "zoom=17"+
       "&scale=2&"+
       "size=600x300&"+
       "maptype=hybrid&"+
-      "key="{{GOOGLE_API}}+
+      "key="+GOOGLE_API
       "format=png&"+
       "visual_refresh=true&"+
       "markers=size:small%7Ccolor:0xff0000%7Clabel:X%7C"+latlon;
