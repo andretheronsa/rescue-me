@@ -16,7 +16,6 @@ def get_location():
     ip = request.remote_addr
     if request.method == "POST":
         data = request.get_json(force=True)
-        debug = data
         try:
             db.session.add(data)
             db.session.commit()
