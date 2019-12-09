@@ -33,7 +33,6 @@ function locate(){
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
       "<br>Altitude accuracy (meters): " + Number(position.coords.altitudeAccuracy).toFixed(0) +
       "<br>Time retrieved: " + Date(position.timestamp).toLocaleString();
-      "<br>DEBUG_PRINT: " + GOOGLE_API;
   }
   function sendLocation(position) {
        $.ajax({
