@@ -60,7 +60,7 @@ function locate(){
       "&scale=2&"+
       "size=600x300&"+
       "maptype=hybrid&"+
-      "key=AIzaSyA2sKFSA7s_iAVehz4i0xu2wXP5Rzv3Efo&"+
+      "key=AIzaSyAYSB81PbdORCW-cHPGHYxKoff3NYeg4w4&"+
       "format=png&"+
       "visual_refresh=true&"+
       "markers=size:small%7Ccolor:0xff0000%7Clabel:X%7C"+latlon;
