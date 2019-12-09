@@ -33,6 +33,7 @@ function locate(){
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
       "<br>Altitude accuracy (meters): " + Number(position.coords.altitudeAccuracy).toFixed(0) +
       "<br>Time retrieved: " + Date(position.timestamp).toLocaleString();
+      "<br>DEBUG_PRINT: " + GOOGLE_API;
   }
   function sendLocation(position) {
        $.ajax({
@@ -54,14 +55,13 @@ function locate(){
   }
   function mapLocation(position) {
     var latlon = position.coords.latitude + "," + position.coords.longitude;
-    var GOOGLE_API = '{{ GOOGLE_API }}'
     var img_url = "https://maps.googleapis.com/maps/api/staticmap?"+
       "center="+latlon+"&"+
       "zoom=17"+
       "&scale=2&"+
       "size=600x300&"+
       "maptype=hybrid&"+
-      "key="+GOOGLE_API
+      "key="+GOOGLE_API+"&"+
       "format=png&"+
       "visual_refresh=true&"+
       "markers=size:small%7Ccolor:0xff0000%7Clabel:X%7C"+latlon;
