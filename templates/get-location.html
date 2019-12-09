@@ -24,19 +24,12 @@
   <body>
       <meta http-equiv="refresh" content="300">
       <div id="output"></div>
-      <div id="mapholder"></div>
+      <div id="map"></div>
+      <p>Debug: {{debug}}</p>
+      <button id="monitor_button" onclick="change()" type="button" value="false">START TRACKING</button>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
       <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/jquery-3.4.1.min.js"%3E%3C/script%3E'))</script>
-      <script src="static/js/monitoring.js"></script>
-      <button onclick="change()" type="button" value="false" id="monitor_button">Start monitoring</button>
-      <script>
-        function change() {
-              var elem = document.getElementById("monitor_button");
-              var id = 0
-              if (elem.value=="false") elem.value = "true", elem.innerHTML='Stop monitoring', monitoring();
-              else elem.value = "false", elem.innerHTML='Start monitoring', stopMonitoring(id);
-          }
-      </script>
-      <p>Debug: {{debug}}</p>
+      <script src="static/js/geoPosition.js"></script>
+      <script src="static/js/locate.js"></script>
   </body>
 </html>
