@@ -2,12 +2,11 @@ import os, sys
 from datetime import datetime as dt
 import dateutil.parser as date_parser
 from flask import render_template, request, jsonify, url_for, redirect, session, flash
-from flask_login import logout_user, login_user, current_user
+from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask import current_app as app
-from .models import db, User, Track
-from .forms import LoginForm
-from . import LoginManager
+from application.models import db, User, Track, Location
+from application.forms import LoginForm
 
 # Main tracking routing
 @app.route("/tracking/<tracking_id>", methods=['GET', 'POST'])
@@ -18,7 +17,7 @@ def get_location(tracking_id):
         data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
         data["ip"] = request.remote_addr
         data["tracking_id"] = tracking_id
-        track = Track(**data)
+        location = Location(**data)
         try:
             db.session.add(track)
             db.session.commit()
@@ -30,8 +29,8 @@ def get_location(tracking_id):
     return render_template("get-location.html", GOOGLE_API=app.config["GOOGLE_API"], debug=debug)
 
 # Login route
-#@app.route('/')
-#@app.route('/index')
+@app.route('/')
+@app.route('/index')
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -51,16 +50,18 @@ def login():
 
 # Logout route
 @app.route("/logout")
-#@login_required
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
 # Crate unique tracking link, monitor patients database and map
 @app.route("/dashboard", methods=['GET', 'POST'])
-#@login_required
+@login_required
 def dashboard():
     if request.method == 'POST':
         tracking_id = dt.now().strftime("%Y%m%d%H%M%S%f").rstrip('0')
         tracking_url="".join(request.url_root+"/tracking/"+tracking_id)
-        return render_template("dashboard.html", tracking_id=tracking_url)
+    else:
+        tracking_url="No tracking url generated"
+    return render_template("dashboard.html", tracking_id=tracking_url)

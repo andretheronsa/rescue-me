@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import Form, StringField, PasswordField, validators, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     """User Login Form."""
 
     email = StringField('Email', validators=[DataRequired('Please enter a valid email address.'),
