@@ -5,7 +5,7 @@ from flask import render_template, request, jsonify, url_for, redirect, session,
 from flask_login import logout_user, login_user, current_user
 from werkzeug.urls import url_parse
 from flask import current_app as app
-from .models import db, User
+from .models import db, User, Track
 from .forms import LoginForm
 from . import LoginManager
 
@@ -18,20 +18,20 @@ def get_location(tracking_id):
         data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
         data["ip"] = request.remote_addr
         data["tracking_id"] = tracking_id
-        print(data)
+        track = Track(**data)
         try:
-            db.session.add(data)
+            db.session.add(track)
             db.session.commit()
-            debug = "Succesfully uploaded location measured at {} to db at: {}".format(data["timestamp"], dt.now())
-            return render_template("get-location.html", GOOGLE_API=app.config["GOOGLE_API"], debug="")
+            debug = "Succesfully uploaded user location measured at {} to db at: {}".format(data["timestamp"], dt.now())
         except Exception as e:
             print(e)
             sys.stdout.flush()
-    return render_template("get-location.html", GOOGLE_API=app.config["GOOGLE_API"], debug="Location not yet uploaded to server")
+            debug = "Location not yet uploaded to server"
+    return render_template("get-location.html", GOOGLE_API=app.config["GOOGLE_API"], debug=debug)
 
 # Login route
-@app.route('/')
-@app.route('/index')
+#@app.route('/')
+#@app.route('/index')
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -60,11 +60,7 @@ def logout():
 @app.route("/dashboard", methods=['GET', 'POST'])
 #@login_required
 def dashboard():
-    if 'username' in session:
-        if request.method == 'POST':
-            tracking_id = dt.now().strftime("%Y%m%d%H%M%S%f").rstrip('0')
-            tracking_url="".join(request.url_root+"/tracking/"+tracking_id)
-            return render_template("dashboard.html", tracking_id=tracking_url)
-        return render_template("dashboard.html", GOOGLE_API=app.config["GOOGLE_API"], tracking_id="Null")
-    else:
-        return render_template("login.html", error="Login is needed to access the dashboard")
+    if request.method == 'POST':
+        tracking_id = dt.now().strftime("%Y%m%d%H%M%S%f").rstrip('0')
+        tracking_url="".join(request.url_root+"/tracking/"+tracking_id)
+        return render_template("dashboard.html", tracking_id=tracking_url)

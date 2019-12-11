@@ -8,26 +8,28 @@ from config import Config
 import logging
 import os
 
+# Init global plug ins
 db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
+login.login_view = 'login'
+heroku = Heroku()
 
 # App factory
-def create_app():
+def create_app(config_class=Config):
     '''Initialize the core application - loading instance relative configs if available'''
-    app = Flask(__name__, instance_relative_config=False)
-    app.config.from_object(Config)
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
-    # Prepare login tools and direct login required to login route
-    login = LoginManager(app)
-    login.login_view = 'login'
-    
-    # Init Plugins
-    heroku = Heroku(app)
+    # Prepare app instance
+    login.init_app(app)
     db.init_app(app)
-    migrate = Migrate(app, db)
+    heroku.init_app(app)
+    migrate.init_app(app, db)
     
     # Creating the critical app context
     with app.app_context():
-        from . import routes, models, forms, auth
+        from . import routes, models, forms
 
     # Ensure logging to stout for heroku
     stream_handler = logging.StreamHandler()
