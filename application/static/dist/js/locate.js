@@ -22,7 +22,7 @@ function locate(){
     if(err.code == 1) {
       output.innerHTML = "Error: Access is denied! Please accept location tracking for this site"
     } else if( err.code == 2) {
-      output.innerHTML = "Error: Position is unavailable! Attempting with low accuracy mode...";
+      output.innerHTML = "Error: Position is unavailable!";
     }
   }
   function displayLocation(position) {
@@ -47,7 +47,7 @@ function locate(){
             "altitudeAccuracy": position.coords.altitudeAccuracy,
             "speed": position.coords.speed,
             "heading": position.coords.heading,
-            "timeStamp": position.timestamp
+            "timeStamp":  Date(position.timestamp).toLocaleString()
           }),
           datatype: "json"
         });
