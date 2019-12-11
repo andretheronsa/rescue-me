@@ -1,12 +1,8 @@
 {% extends 'bootstrap/base.html' %}
-<link rel="shortcut icon" href="/static/dist/img/favicon.ico">
+<link rel="shortcut icon" href="/static/img/favicon.ico">
 
 {% block title %}
-    {% if title %}
-    <title>WSAR - {{ title }}</title>
-    {% else %}
-    <title>WSAR</title>
-    {% endif %}
+    {% if title %} WSAR - {{ title }}{% else %}WSAR{% endif %}
 {% endblock %}
 
 {% block navbar %}

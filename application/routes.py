@@ -1,12 +1,34 @@
 import os, sys
 from datetime import datetime as dt
 import dateutil.parser as date_parser
-from flask import render_template, request, jsonify, url_for, redirect, session, flash
+from flask import render_template, request, jsonify, url_for, redirect, session, flash, send_from_directory
 from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask import current_app as app
 from application.models import db, User, Track, Location
 from application.forms import LoginForm, Dashboard, Locate
+
+@app.route('/favicon.ico') 
+def favicon(): 
+    return send_from_directory(os.path.join(app.root_path, 'static/favicon/'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route("/")
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user)
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('dashboard')
+        return redirect(next_page)
+    return render_template('login.html', title='Sign In', form=form)
 
 @app.route("/tracking-<tracking_id>", methods=['GET', 'POST'])
 def locate(tracking_id):
@@ -29,24 +51,6 @@ def locate(tracking_id):
             debug = "Location not yet uploaded to server"
     return render_template("locate.html",
                            GOOGLE_API=app.config["GOOGLE_API"], allowed="true")
-
-@app.route("/")
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('dashboard')
-        return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
