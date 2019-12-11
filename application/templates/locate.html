@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block app_content %}
       {% if {{ allowed }} == false %}
       <p>Sorry. The tracking link is unknown.</p>
       {% else %}
       <meta http-equiv="refresh" content="30">
       <div id="output", class="box"></div>
       <div id="map"></div>
-      <p>Debug: {{ debug }}</p>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script>!window.jQuery && document.write(unescape('%3Cscript src="/static/dist/js/jquery-3.4.1.min.js"%3E%3C/script%3E'))</script>
       <script src="static/dist/js/geoPosition.js"></script>
-      <script>var GOOGLE_API = "{{ GOOGLE_API }}"</script>
       <script src="static/dist/js/locate.js"></script>
       <button id="monitor_button" onclick="change()" type="button" value="false">START TRACKING</button>
       {% endif %}

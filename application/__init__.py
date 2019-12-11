@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_heroku import Heroku
 from flask_login import LoginManager
@@ -14,6 +15,7 @@ migrate = Migrate()
 login = LoginManager()
 login.login_view = 'login'
 heroku = Heroku()
+bootstrap = Bootstrap()
 
 # App factory
 def create_app(config_class=Config):
@@ -26,6 +28,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     heroku.init_app(app)
     migrate.init_app(app, db)
+    bootstrap.init_app(app)
     
     # Creating the critical app context
     with app.app_context():

@@ -1,6 +1,7 @@
 var id = 0
 var output = document.getElementById('output')
 var map = document.getElementById("map")
+var GOOGLE_API = "{{ GOOGLE_API }}"
 function locate(){
   function monitorLocation(position) {
     if(geoPosition.init()) {

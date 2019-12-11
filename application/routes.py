@@ -30,6 +30,7 @@ def locate(tracking_id):
     return render_template("locate.html",
                            GOOGLE_API=app.config["GOOGLE_API"], allowed="true")
 
+@app.route("/")
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

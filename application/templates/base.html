@@ -1,32 +1,15 @@
-<html>
-    <head>
-      {% if title %}
-      <title>WSAR - {{ title }}</title>
-      {% else %}
-      <title>WSAR</title>
-      {% endif %}
-      <title>WSAR tracking</title>
-      <link rel="stylesheet" href="/static/css/styles.css">
-      <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-icon-57x57.png">
-      <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-icon-60x60.png">
-      <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-icon-72x72.png">
-      <link rel="apple-touch-icon" sizes="76x76" href="/static/images/apple-icon-76x76.png">
-      <link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-icon-114x114.png">
-      <link rel="apple-touch-icon" sizes="120x120" href="/static/images/apple-icon-120x120.png">
-      <link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-icon-144x144.png">
-      <link rel="apple-touch-icon" sizes="152x152" href="/static/images/apple-icon-152x152.png">
-      <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-icon-180x180.png">
-      <link rel="icon" type="image/png" sizes="192x192"  href="/static/images/android-icon-192x192.png">
-      <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
-      <link rel="icon" type="image/png" sizes="96x96" href="/static/images/favicon-96x96.png">
-      <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
-      <link rel="manifest" href="/static/images/manifest.json">
-      <meta name="msapplication-TileColor" content="#ffffff">
-      <meta name="msapplication-TileImage" content="/static/images/ms-icon-144x144.png">
-      <meta name="theme-color" content="#ffffff">
-    </head>
-    <body>
-        <div>
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}
+    <title>WSAR - {{ title }}</title>
+    {% else %}
+    <title>WSAR</title>
+    {% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
             WSAR:
             <a href="{{ url_for('dashboard') }}">Dashboard</a>
             {% if current_user.is_anonymous %}
@@ -34,17 +17,19 @@
             {% else %}
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
-        </div>
-        <hr>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+            <div class="alert alert-info" role="alert">{{ message }}</div>
             {% endfor %}
-        </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
-</html>
+
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
