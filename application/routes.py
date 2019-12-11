@@ -6,13 +6,13 @@ from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask import current_app as app
 from application.models import db, User, Track, Location
-from application.forms import LoginForm
+from application.forms import LoginForm, Dashboard, Locate
 
-@app.route("/tracking/<tracking_id>", methods=['GET', 'POST'])
-def get_location(tracking_id):
+@app.route("/tracking-<tracking_id>", methods=['GET', 'POST'])
+def locate(tracking_id):
     exists = db.session.query(Track.track_name).filter_by(track_name=tracking_id).scalar() is not None
     if not exists:
-        return render_template("get-location.html", allowed="false")
+        return render_template("locate.html", allowed="false")
     if request.method == "POST":
         data = request.get_json(force=True)
         data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
@@ -27,10 +27,8 @@ def get_location(tracking_id):
             print(e)
             sys.stdout.flush()
             debug = "Location not yet uploaded to server"
-    return render_template("get-location.html",
-                           GOOGLE_API=app.config["GOOGLE_API"],
-                           debug=debug,
-                           allowed="true")
+    return render_template("locate.html",
+                           GOOGLE_API=app.config["GOOGLE_API"], allowed="true")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -42,7 +40,7 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
+        login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('dashboard')

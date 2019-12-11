@@ -19,7 +19,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128), unique=False)
     
     # Relationships
-    tracks = db.relationship('track', backref='username', lazy='dynamic')
+    tracks = db.relationship('Track', backref='username', lazy='dynamic')
   
     # Functions
     def set_password(self, password):
@@ -38,7 +38,7 @@ class Track(db.Model):
     
     # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    locations = db.relationship('location', backref='track_name', lazy='dynamic')
+    locations = db.relationship('Location', backref='track_name', lazy='dynamic')
     
 class Location(db.Model):
     """Model for Location data"""
