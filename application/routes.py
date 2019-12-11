@@ -8,14 +8,13 @@ from flask import current_app as app
 from application.models import db, User, Track, Location
 from application.forms import LoginForm
 
-# Main tracking routing
 @app.route("/tracking/<tracking_id>", methods=['GET', 'POST'])
 def get_location(tracking_id):
-    if tracking_id not in db.Track:
-        return render_template("not-allowed.html")
+    exists = db.session.query(Track.track_name).filter_by(track_name=tracking_id).scalar() is not None
+    if not exists:
+        return render_template("get-location.html", allowed="false")
     if request.method == "POST":
         data = request.get_json(force=True)
-        # Convert timestamp to datetime - just cut (brackets with South Africa standard time out)
         data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
         data["ip"] = request.remote_addr
         data["track_id"] = tracking_id
@@ -28,13 +27,10 @@ def get_location(tracking_id):
             print(e)
             sys.stdout.flush()
             debug = "Location not yet uploaded to server"
-    return render_template("get-location.html", GOOGLE_API=app.config["GOOGLE_API"], debug=debug)
-
-# Login route
-@app.route('/')
-@app.route('/index')
-def direct():
-    return redirect(url_for('dashboard'))
+    return render_template("get-location.html",
+                           GOOGLE_API=app.config["GOOGLE_API"],
+                           debug=debug,
+                           allowed="true")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -51,16 +47,8 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('dashboard')
         return redirect(next_page)
-    return render_template(url_for('login'), title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form)
 
-# Logout route
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-# Create unique tracking link and add to dashboard, monitor patients database and map
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
@@ -85,3 +73,10 @@ def dashboard():
     else:
         tracking_url="Generated tracking URL"
     return render_template("dashboard.html", tracking_url=tracking_url)
+
+# Logout route
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
