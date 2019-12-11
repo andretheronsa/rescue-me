@@ -37,8 +37,8 @@ class Track(db.Model):
     share_team = db.Column(db.Boolean())
     
     # Relationships
-    auth_user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    locations = db.relationship('Location', backref='track_name', lazy='dynamic')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    locations = db.relationship('location', backref='track_name', lazy='dynamic')
     
 class Location(db.Model):
     """Model for Location data"""
@@ -57,5 +57,5 @@ class Location(db.Model):
     timeStamp = db.Column(db.DateTime(), index=True)
     
     # Relationships
-    tracking_id = db.Column(db.Integer, db.ForeignKey('track.id'))
+    track_id = db.Column(db.Integer, db.ForeignKey('track.id'))
 

@@ -11,15 +11,17 @@ from application.forms import LoginForm
 # Main tracking routing
 @app.route("/tracking/<tracking_id>", methods=['GET', 'POST'])
 def get_location(tracking_id):
+    if tracking_id not in db.Track:
+        return render_template("not-allowed.html")
     if request.method == "POST":
         data = request.get_json(force=True)
         # Convert timestamp to datetime - just cut (brackets with South Africa standard time out)
         data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
         data["ip"] = request.remote_addr
-        data["tracking_id"] = tracking_id
+        data["track_id"] = tracking_id
         location = Location(**data)
         try:
-            db.session.add(track)
+            db.session.add(location)
             db.session.commit()
             debug = "Succesfully uploaded user location measured at {} to db at: {}".format(data["timestamp"], dt.now())
         except Exception as e:
@@ -31,6 +33,9 @@ def get_location(tracking_id):
 # Login route
 @app.route('/')
 @app.route('/index')
+def direct():
+    return redirect(url_for('dashboard'))
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -55,13 +60,28 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# Crate unique tracking link, monitor patients database and map
+# Create unique tracking link and add to dashboard, monitor patients database and map
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
     if request.method == 'POST':
-        tracking_id = dt.now().strftime("%Y%m%d%H%M%S%f").rstrip('0')
-        tracking_url="".join(request.url_root+"/tracking/"+tracking_id)
+        # Generate track id - based on exact time to be unique and useful
+        share = request.get_json(force=True)
+        track_id = dt.now().strftime("%Y%m%d%H%M%S%f").rstrip('0')
+        # Add track to the DB
+        data = {"track_id": track_id,
+                "share_team": share["share"],
+                "user_id": current_user.id}
+        track = Track(**data)
+        try:
+            db.session.add(track)
+            db.session.commit()
+            # Generate link to tracking url
+            tracking_url="".join(request.url_root+'/tracking/'+track_id)
+        except Exception as e:
+            print(e)
+            sys.stdout.flush()
+            tracking_url="Could not generate tracking URL"
     else:
-        tracking_url="No tracking url generated"
-    return render_template("dashboard.html", tracking_id=tracking_url)
+        tracking_url="Generated tracking URL"
+    return render_template("dashboard.html", tracking_url=tracking_url)
