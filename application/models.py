@@ -54,6 +54,7 @@ class Location(db.Model):
     altitudeAccuracy = db.Column(db.Float())
     speed = db.Column(db.Float())
     heading = db.Column(db.Float())
+    w3w = db.Column(db.String(15))
     timeStamp = db.Column(db.DateTime(), index=True)
     
     # Relationships

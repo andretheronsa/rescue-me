@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-      {% if {{ allowed }} == false %}
-      <p>Sorry. The tracking link is unknown.</p>
+      {% if {{ allowed }} != true %}
+      <p>{{ allowed }}</p>
       {% else %}
       <meta http-equiv="refresh" content="30">
       <div id="output", class="box"></div>
+      <div>Location in three words: {{ w3w }}</div>
       <div id="map"></div>
       <script src="static/js/geoPosition.js"></script>
       <script src="static/js/locate.js"></script>
