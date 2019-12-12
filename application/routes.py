@@ -103,7 +103,6 @@ def dashboard():
     data["GOOGLE_API"] = app.config["GOOGLE_API"]
     data["LATLON"] = "-33, 18"
     return render_template("dashboard.html", data=data)
-    
 
 # Logout route
 @app.route("/logout")
