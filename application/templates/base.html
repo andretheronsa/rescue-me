@@ -7,10 +7,11 @@
 {% block navbar %}
     <nav class="navbar navbar-default">
             WSAR:
-            <a href="{{ url_for('dashboard') }}">Dashboard</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
+            <a href="{{ url_for('share') }}">Create Tracking Link</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
     </nav>
