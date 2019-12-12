@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-      {% if {{ allowed }} != true %}
+      {% if {{ data.allowed }} != true %}
       <p>{{ allowed }}</p>
       {% else %}
       <meta http-equiv="refresh" content="30">
