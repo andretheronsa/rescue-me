@@ -1,6 +1,7 @@
 var id = 0
 var output = document.getElementById('output')
 var map = document.getElementById("map")
+var w3w = w3w
 function locate(){
   function monitorLocation(position) {
     if(geoPosition.init()) {
@@ -32,12 +33,13 @@ function locate(){
       "<br>Position accuracy (meters): " + Number(position.coords.accuracy).toFixed(0) +
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
       "<br>Altitude accuracy (meters): " + Number(position.coords.altitudeAccuracy).toFixed(0) +
-      "<br>Time retrieved: " + Date(position.timestamp).toLocaleString();
+      "<br>Time retrieved: " + Date(position.timestamp).toLocaleString() +
+      "<br>What3words: " + String(w3w);
   }
   function sendLocation(position) {
        $.ajax({
           method: "POST",
-          url: '/',
+          url: url,
           contentType: "application/json",
           data: JSON.stringify({
             "latitude": position.coords.latitude,

@@ -33,12 +33,14 @@ class Track(db.Model):
     
     # Fields
     id = db.Column(db.Integer, primary_key=True)
-    track_name = db.Column(db.String(20), index=True, unique=True)
+    name = db.Column(db.String(20), index=True, unique=True)
+    url = db.Column(db.String(20), unique=True)
+    create_time = db.Column(db.DateTime, index=True, default=dt.utcnow)
     share_team = db.Column(db.Boolean())
     
     # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    locations = db.relationship('Location', backref='track_name', lazy='dynamic')
+    locations = db.relationship('Location', backref='location_id', lazy='dynamic')
     
 class Location(db.Model):
     """Model for Location data"""
@@ -54,7 +56,7 @@ class Location(db.Model):
     altitudeAccuracy = db.Column(db.Float())
     speed = db.Column(db.Float())
     heading = db.Column(db.Float())
-    w3w = db.Column(db.String(15))
+    w3w = db.Column(db.String(60))
     timeStamp = db.Column(db.DateTime(), index=True)
     
     # Relationships

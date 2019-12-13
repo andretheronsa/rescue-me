@@ -8,10 +8,17 @@ from flask import current_app as app
 from application.models import db, User, Track, Location
 from application.forms import LoginForm, DashboardForm, LocateForm, ShareForm
 import what3words
+import phonetic_alphabet as alpha
+import string
+from random import randint
 
 @app.route('/favicon.ico') 
 def favicon(): 
     return send_from_directory(os.path.join(app.root_path, 'static/favicon/'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@app.route('/')
+def hello():
+    return redirect(url_for('login'))
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -30,7 +37,7 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
-@app.route("/")
+#@app.route("/")
 @app.route("/share", methods=['GET', 'POST'])
 @login_required
 def share():
@@ -39,11 +46,16 @@ def share():
     data = {}
     # Recieve post request for track data
     if request.method == 'POST':
-        # Generate track id - based on exact time to be unique and useful
+        # Generate track name - 3 character nato alphabet unique to tracking DB - 14k options
         share = form.share.data
-        track_id = dt.now().strftime("%Y%m%d%H%M%S%f")
+        exist = True
+        while exist:
+            name = "-".join(alpha.read(base(randint(676, 15624))).lower().split())
+            exist = db.session.query(Track.id).filter_by(name=name).scalar() is not None
+        url="".join(request.url_root+name)
         # Add track to the DB
-        data = {"track_name": track_id,
+        data = {"name": name,
+                "url": url,
                 "share_team": share,
                 "user_id": current_user.id}
         track = Track(**data)
@@ -51,44 +63,45 @@ def share():
             db.session.add(track)
             db.session.commit()
             # Generate link to track url
-            track_url="".join(request.url_root+'track-'+track_id)
+            
         except Exception as e:
             print(e)
             sys.stdout.flush()
-            track_url="Could not generate track URL"
+            url="Could not generate track URL"
     else:
-        track_url="Generated track URL"
-    return render_template("share.html", track_url=track_url, title='Share', form=form)
+        url="Generated track URL"
+    return render_template("share.html", url=url, title='Share', form=form)
 
-@app.route("/track-<track_name>", methods=['GET', 'POST'])
-def locate(track_name):
-    data={}
-    # Ensure track ID has not expired yet
-    track_time = dt.strptime(track_name, "%Y%m%d%H%M%S%f")
-    current_time = dt.now()
-    difference = current_time - track_time 
-    if difference.days >= 3:
-        return render_template("locate.html", title='Tracking')
+@app.route("/<name>", methods=['GET', 'POST'])
+def locate(name):
+    data = {"url": '/'+name, "w3w": "checking..."}
     # Ensure track ID has been issued
-    exists = db.session.query(Track.track_name).filter_by(track_name=track_name).scalar() is not None
+    exists = db.session.query(Track.name).filter_by(name=name).scalar() is not None
     if not exists:
+        return render_template("locate.html", title='Tracking')
+    # Ensure track ID has not expired yet
+    track_time = db.session.query(Track.create_time).filter_by(name=name).scalar()
+    track_time_db = date_parser.parse(track_time.strftime('%c'))
+    current_time = dt.now()
+    difference = current_time - track_time_db 
+    if difference.days >= 3:
         return render_template("locate.html", title='Tracking')
     # Recieve track data from client
     if request.method == "POST":
         # Parse position object return
         data = request.get_json(force=True)
-        data["timestamp"] = date_parser.parse(data["timestamp"].split("(")[0])
+        data["timeStamp"] = date_parser.parse(data["timeStamp"].split("(")[0])
         # Insert extra info about request
         data["ip"] = request.remote_addr
-        data["track_id"] = track_name
+        data["track_id"] = db.session.query(Track.id).filter_by(name=name)
         geocoder = what3words.Geocoder(app.config["W3W_API"])
         w3w = geocoder.convert_to_3wa(what3words.Coordinates(data["latitude"], data["longitude"]))
-        data["w3w"] = w3w
+        data["w3w"] = w3w["words"]
         location = Location(**data)
         try:
             db.session.add(location)
             db.session.commit()
-            data["info"] = "Succesfully uploaded user location measured at {} to db at: {}".format(data["timestamp"], dt.now())
+            data["info"] = "Succesfully uploaded user location measured at {} to db at: {}".format(data["timeStamp"], dt.now())
         except Exception as e:
             print(e)
             sys.stdout.flush()
@@ -96,8 +109,8 @@ def locate(track_name):
         # Add API's
         data["GOOGLE_API"]=app.config["GOOGLE_API"]
         data["allowed"]="true"
-        return render_template("locate.html", title='Tracking', data=data)
-    return render_template("locate.html", title='Tracking', data="empty")
+        return render_template("locate.html", title='Locate', data=data)
+    return render_template("locate.html", title='Locate', data=data)
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
@@ -114,3 +127,7 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+# Useful apps
+def base(num,b=26,numerals="abcdefghijklmnopqrstuvwxyz"):
+    return ((num == 0) and numerals[0]) or (base(num // b, b, numerals).lstrip(numerals[0]) + numerals[num % b])

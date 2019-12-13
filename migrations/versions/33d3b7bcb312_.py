@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7984dd19645c
+Revision ID: 33d3b7bcb312
 Revises: 
-Create Date: 2019-12-11 18:53:54.156233
+Create Date: 2019-12-13 10:55:50.972335
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7984dd19645c'
+revision = '33d3b7bcb312'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,13 +27,17 @@ def upgrade():
     op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
     op.create_table('track',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('track_name', sa.String(length=20), nullable=True),
+    sa.Column('name', sa.String(length=20), nullable=True),
+    sa.Column('url', sa.String(length=20), nullable=True),
+    sa.Column('create_time', sa.DateTime(), nullable=True),
     sa.Column('share_team', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('url')
     )
-    op.create_index(op.f('ix_track_track_name'), 'track', ['track_name'], unique=True)
+    op.create_index(op.f('ix_track_create_time'), 'track', ['create_time'], unique=False)
+    op.create_index(op.f('ix_track_name'), 'track', ['name'], unique=True)
     op.create_table('location',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('ip', sa.String(length=15), nullable=True),
@@ -45,6 +49,7 @@ def upgrade():
     sa.Column('altitudeAccuracy', sa.Float(), nullable=True),
     sa.Column('speed', sa.Float(), nullable=True),
     sa.Column('heading', sa.Float(), nullable=True),
+    sa.Column('w3w', sa.String(length=60), nullable=True),
     sa.Column('timeStamp', sa.DateTime(), nullable=True),
     sa.Column('track_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['track_id'], ['track.id'], ),
@@ -60,7 +65,8 @@ def downgrade():
     op.drop_index(op.f('ix_location_timeStamp'), table_name='location')
     op.drop_index(op.f('ix_location_logtime'), table_name='location')
     op.drop_table('location')
-    op.drop_index(op.f('ix_track_track_name'), table_name='track')
+    op.drop_index(op.f('ix_track_name'), table_name='track')
+    op.drop_index(op.f('ix_track_create_time'), table_name='track')
     op.drop_table('track')
     op.drop_index(op.f('ix_user_username'), table_name='user')
     op.drop_table('user')

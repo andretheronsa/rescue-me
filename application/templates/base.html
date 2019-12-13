@@ -1,12 +1,12 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %} WSAR - {{ title }}{% else %}WSAR{% endif %}
+    {% if title %}{{ title }} - WSAR{% else %}WSAR{% endif %}
 {% endblock %}
 
 {% block navbar %}
     <nav class="navbar navbar-default">
-            WSAR:
+            WSAR
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
