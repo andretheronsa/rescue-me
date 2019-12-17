@@ -119,10 +119,8 @@ def locate(name):
 def dashboard():
     # Create data object to send to html
     track_items = Track.query.filter().all()
-    print(track_items)
     track_table = TrackTable(track_items)
     location_items = Location.query.filter().all()
-    print(location_items)
     location_table = LocationTable(location_items)
     return render_template("dashboard.html", title='Dashboard', track_table=track_table, location_table=location_table)
 
