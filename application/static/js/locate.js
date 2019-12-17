@@ -1,7 +1,6 @@
 var id = 0
 var output = document.getElementById('output')
 var map = document.getElementById("map")
-var w3w = w3w
 function locate(){
   function monitorLocation(position) {
     if(geoPosition.init()) {
@@ -21,20 +20,19 @@ function locate(){
   }
   function errorHandler(err) {
     if(err.code == 1) {
-      output.innerHTML = "Error: Access is denied! Please accept location tracking for this site"
+      output.innerHTML = "Error: Location access was not approved for tracking - please give sete permissions in options or try again in incognito mode"
     } else if( err.code == 2) {
       output.innerHTML = "Error: Position is unavailable!";
     }
   }
   function displayLocation(position) {
       output.innerHTML = 
-      "Latitude (decimal degrees): " + Number(position.coords.latitude).toFixed(5) + 
+      "What3words: " + String(w3w) +
+      "<br>Latitude (decimal degrees): " + Number(position.coords.latitude).toFixed(5) + 
       "<br>Longitude (decimal degrees): " + Number(position.coords.longitude).toFixed(5) +
-      "<br>Position accuracy (meters): " + Number(position.coords.accuracy).toFixed(0) +
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
-      "<br>Altitude accuracy (meters): " + Number(position.coords.altitudeAccuracy).toFixed(0) +
-      "<br>Time retrieved: " + Date(position.timestamp).toLocaleString() +
-      "<br>What3words: " + String(w3w);
+      "<br>Accuracy (meters): " + Number(position.coords.accuracy).toFixed(0) +
+      "<br>Time located: " + Date(position.timestamp).toLocaleString();
   }
   function sendLocation(position) {
        $.ajax({
@@ -49,7 +47,7 @@ function locate(){
             "altitudeAccuracy": position.coords.altitudeAccuracy,
             "speed": position.coords.speed,
             "heading": position.coords.heading,
-            "timeStamp":  Date(position.timestamp).toLocaleString()
+            "timeStamp": position.timestamp
           }),
           datatype: "json"
         });
@@ -78,10 +76,12 @@ function change() {
   var elem = document.getElementById("monitor_button");
   if (elem.value=="false") {
     elem.value = "true";
+    elem.style.backgroundColor = "LightCoral";
     elem.innerHTML='STOP TRACKING';
     locate();
   }  else {
     elem.value = "false";
+    elem.style.backgroundColor = "GreenYellow";
     elem.innerHTML='START TRACKING';
     stopMonitoring(id);
   }

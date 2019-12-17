@@ -7,6 +7,7 @@ from werkzeug.urls import url_parse
 from flask import current_app as app
 from application.models import db, User, Track, Location
 from application.forms import LoginForm, DashboardForm, LocateForm, ShareForm
+from application.tables import LocationTable, TrackTable
 import what3words
 import phonetic_alphabet as alpha
 import string
@@ -48,6 +49,7 @@ def share():
     if request.method == 'POST':
         # Generate track name - 3 character nato alphabet unique to tracking DB - 14k options
         share = form.share.data
+        alias = form.alias.data
         exist = True
         while exist:
             name = "-".join(alpha.read(base(randint(676, 15624))).lower().split())
@@ -55,6 +57,7 @@ def share():
         url="".join(request.url_root+name)
         # Add track to the DB
         data = {"name": name,
+                "alias": alias,
                 "url": url,
                 "share_team": share,
                 "user_id": current_user.id}
@@ -62,8 +65,6 @@ def share():
         try:
             db.session.add(track)
             db.session.commit()
-            # Generate link to track url
-            
         except Exception as e:
             print(e)
             sys.stdout.flush()
@@ -90,6 +91,7 @@ def locate(name):
     if request.method == "POST":
         # Parse position object return
         data = request.get_json(force=True)
+        data["url"] = '/'+name
         data["timeStamp"] = date_parser.parse(data["timeStamp"].split("(")[0])
         # Insert extra info about request
         data["ip"] = request.remote_addr
@@ -116,10 +118,13 @@ def locate(name):
 @login_required
 def dashboard():
     # Create data object to send to html
-    data = {}
-    data["GOOGLE_API"] = app.config["GOOGLE_API"]
-    data["GOOGLE_API"] = app.config["GOOGLE_API"]
-    return render_template("dashboard.html", title='Dashboard', data=data)
+    track_items = Track.query.filter().all()
+    print(track_items)
+    track_table = TrackTable(track_items)
+    location_items = Location.query.filter().all()
+    print(location_items)
+    location_table = LocationTable(location_items)
+    return render_template("dashboard.html", title='Dashboard', track_table=track_table, location_table=location_table)
 
 # Logout route
 @app.route("/logout")

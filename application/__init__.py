@@ -5,6 +5,7 @@ from flask_heroku import Heroku
 from flask_login import LoginManager
 from flask_session import Session
 from flask_migrate import Migrate
+from flask_babel import Babel
 from config import Config
 import logging
 import os
@@ -16,6 +17,7 @@ login = LoginManager()
 login.login_view = 'login'
 heroku = Heroku()
 bootstrap = Bootstrap()
+babel = Babel()
 
 # App factory
 def create_app(config_class=Config):
@@ -29,10 +31,11 @@ def create_app(config_class=Config):
     heroku.init_app(app)
     migrate.init_app(app, db)
     bootstrap.init_app(app)
+    babel.init_app(app)
     
     # Creating the critical app context
     with app.app_context():
-        from . import routes, models, forms
+        from . import routes, models, forms, tables
 
     # Ensure logging to stout for heroku
     stream_handler = logging.StreamHandler()

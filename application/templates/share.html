@@ -8,5 +8,14 @@
             {{ wtf.quick_form(form) }}
         </div>
     </div>
-    {{ url }}
+    <h2>{{ url }}</h2>
+    <p>
+        Share this link to patient and instruct them to:<br>
+        1. Follow the link<br>
+        2. Press the start tracking button<br>
+        3.Allow tracking on the page<br>
+        Patient location will update every minute as long as the page is open
+        If page is kept open the location display will keep updating even without a connection (but not upload to server)
+    </p>
+    <h2><a href="{{ url_for('dashboard') }}">Go to dashboard to track link</a></h2>
 {% endblock %}

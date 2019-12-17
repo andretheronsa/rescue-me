@@ -11,7 +11,9 @@ class LoginForm(FlaskForm):
 
 class ShareForm(FlaskForm):
     """User Login Form."""
-    share = BooleanField('Share with team')
+    
+    share = BooleanField('Allow team to track this link (default only current user has access)')
+    alias = StringField('Optional name to associate with link', validators=[Optional('Optional name for tracking link')])
     submit = SubmitField('Create tracking link')
 
 class DashboardForm(FlaskForm):
