@@ -36,7 +36,7 @@ class Track(db.Model):
     name = db.Column(db.String(30), index=True, unique=True)
     alias = db.Column(db.String(30), index=True)
     url = db.Column(db.String(70), unique=True)
-    create_time = db.Column(db.DateTime, index=True, default=dt.utcnow)
+    create_time = db.Column(db.DateTime, index=True, default=dt.now)
     share_team = db.Column(db.Boolean())
     
     # Relationships
@@ -49,7 +49,7 @@ class Location(db.Model):
     # Fields
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(15))
-    logtime = db.Column(db.DateTime, index=True, default=dt.utcnow)
+    logtime = db.Column(db.DateTime, index=True, default=dt.now)
     latitude = db.Column(db.Numeric(8,6))
     longitude = db.Column(db.Numeric(9,6))
     positionAccuracy = db.Column(db.Float())

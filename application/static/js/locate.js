@@ -37,7 +37,6 @@ function locate(){
   function sendLocation(position) {
        $.ajax({
           method: "POST",
-          url: url,
           contentType: "application/json",
           data: JSON.stringify({
             "latitude": position.coords.latitude,
@@ -47,7 +46,7 @@ function locate(){
             "altitudeAccuracy": position.coords.altitudeAccuracy,
             "speed": position.coords.speed,
             "heading": position.coords.heading,
-            "timeStamp": position.timestamp
+            "timeStamp": Date(position.timestamp).toLocaleString()
           }),
           datatype: "json"
         });
