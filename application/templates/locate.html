@@ -2,10 +2,15 @@
 
 {% block app_content %}
       {% if static_data.url_valid %}
+            <div id="w3w"></div>
             <div id="output", class="box"></div>
             <div id="map"></div>
             <script>
-                  var w3w = '{{ data.w3w }}', GOOGLE_API = '{{ data.GOOGLE_API }}';
+                  var W3W_API = '{{ static_data.W3W_API }}', 
+                  GOOGLE_API = '{{ static_data.GOOGLE_API }}',
+                  script = document.createElement('script');
+                  script.src = "https://assets.what3words.com/sdk/v3/what3words.js?key="+W3W_API;
+                  document.getElementsByTagName('script')[0].parentNode.appendChild(script);
             </script>
             <script src="static/js/geoPosition.js"></script>
             <script src="static/js/locate.js"></script>

@@ -1,6 +1,7 @@
 var id = 0
 var output = document.getElementById('output')
 var map = document.getElementById("map")
+var w3w = document.getElementById("w3w")
 function locate(){
   function monitorLocation(position) {
     if(geoPosition.init()) {
@@ -16,6 +17,7 @@ function locate(){
   function updateLocation(position) {
       sendLocation(position);
       displayLocation(position);
+      w3wLocation(position);
       mapLocation(position)
   }
   function errorHandler(err) {
@@ -27,8 +29,7 @@ function locate(){
   }
   function displayLocation(position) {
       output.innerHTML = 
-      "What3words: " + String(w3w) +
-      "<br>Latitude (decimal degrees): " + Number(position.coords.latitude).toFixed(5) + 
+      "Latitude (decimal degrees): " + Number(position.coords.latitude).toFixed(5) + 
       "<br>Longitude (decimal degrees): " + Number(position.coords.longitude).toFixed(5) +
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
       "<br>Accuracy (meters): " + Number(position.coords.accuracy).toFixed(0) +
@@ -64,6 +65,16 @@ function locate(){
       "visual_refresh=true&"+
       "markers=size:small%7Ccolor:0xff0000%7Clabel:X%7C"+latlon;
     map.innerHTML = "<img src='"+img_url+"'>";
+  }
+  function w3wLocation(position){
+    what3words.api.convertTo3wa({lat:position.coords.latitude, lng:position.coords.longitude})
+    .then(function(response) {
+      w3w.innerHTML = "What3Words: "+response.words;
+   })
+   .catch(function(error) { // catch errors here
+    console.log("[code]", error.code);
+    console.log("[message]", error.message);
+  });
   }
   monitorLocation()
   id = setInterval(monitorLocation, 60000);

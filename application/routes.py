@@ -6,7 +6,7 @@ from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask import current_app as app
 from application.models import db, User, Track, Location
-from application.forms import LoginForm, DashboardForm, LocateForm, ShareForm
+from application.forms import LoginForm, ShareForm
 from application.tables import LocationTable, TrackTable
 import what3words
 import phonetic_alphabet as alpha
@@ -78,7 +78,9 @@ def share():
 @app.route("/<name>", methods=['GET', 'POST'])
 def locate(name):
     data = False
-    static_data = {"GOOGLE_API" : app.config["GOOGLE_API"], "url_valid" : True}
+    static_data = {"GOOGLE_API" : app.config["GOOGLE_API"],
+                   "W3W_API" : app.config["W3W_API"],
+                   "url_valid" : True}
     # Ensure track ID has been issued
     exists = db.session.query(Track.name).filter_by(name=name).scalar() is not None
     if not exists:

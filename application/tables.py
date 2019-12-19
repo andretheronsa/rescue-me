@@ -26,6 +26,7 @@ class LocationTable(Table):
     allow_sort = True
 
     id = Col('Id', show=False)
+    timeStamp = Col('GPS logtime')
     latitude = Col('Latitude')
     longitude = Col('Longitude')
     positionAccuracy = Col('Position Accuracy (m)')
@@ -35,8 +36,6 @@ class LocationTable(Table):
     heading = Col('Heading (deg)')
     w3w = Col('What3words')
     ip = Col('IP')
-    timeStamp = Col('GPS logtime')
-    logtime = Col('Database logtime')
         
     def sort_url(self, col_key, reverse=False):
         if reverse:

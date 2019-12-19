@@ -15,11 +15,3 @@ class ShareForm(FlaskForm):
     share = BooleanField('Allow team to track this link (default only current user has access)')
     alias = StringField('Optional name to associate with link', validators=[Optional('Optional name for tracking link')])
     submit = SubmitField('Create tracking link')
-
-class DashboardForm(FlaskForm):
-    """Dashboard"""
-    pass
-    
-class LocateForm(FlaskForm):
-    """Tracking"""
-    pass
