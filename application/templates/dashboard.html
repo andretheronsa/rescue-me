@@ -16,13 +16,14 @@
       {{ data.location_table }}
     </table>
     <script>
-      var GOOGLE_API = data.GOOGLE_API,
-            LATLON = data.latitude+","+OBJECT.longitude,
-            RAD = data.altitudeAccuracy,
-            W3W = data.W3W,
-            MAPBOX_API = data.MAPBOX_API,
-            TRACK_ID = data.track_id,
-            IP = data.ip;
+      var GOOGLE_API = '{{ data.GOOGLE_API }}',
+            LAT = '{{ data.latitude }}',            
+            LON = '{{ data.longitude }}',
+            RAD = '{{ data.altitudeAccuracy }}',
+            W3W = '{{ data.W3W }}',
+            MAPBOX_API = '{{ data.MAPBOX_API }}',
+            TRACK_ID = '{{ data.track_id }}',
+            IP = '{{ data.ip }}';
     </script>
     <div id="map"></div>
     <script src="static/js/map.js"></script>

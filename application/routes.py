@@ -116,13 +116,25 @@ def locate(name):
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    data = {"GOOGLE_API": app.config["GOOGLE_API"], "MAPBOX_API": app.config["MAPBOX_API"]}
     # Create data object to send to html
     allowed_track_items = Track.query.filter(or_(Track.user_id == current_user.id, Track.share_team == True)).all()
     track_table = TrackTable(allowed_track_items)
-    location_items = Location.query.filter().all()
-    location_table = LocationTable(location_items)
-    data = {"track_table": track_table, "location_table": location_table}
-    data["GOOGLE_API"]=app.config["GOOGLE_API"]
+    data["track_table"] = track_table
+    if request.method == "POST":
+        if "track_id" in request.args:
+            track_id = request.args["track_id"]
+            data["track_id"] = track_id
+            location_items = Location.query.filter_by(track_id=track_id).all()
+            location_table = LocationTable(location_items)
+            data["location_table"] = location_table
+            last_record = Location.query.filter_by(track_id=track_id).order_by(Location.timeStamp.desc()).first()
+            if last_record:
+                data["latitude"] = last_record.latitude
+                data["longitude"] = last_record.longitude
+                data["altitudeAccuracy"] = last_record.altitudeAccuracy
+                data["W3W"] = last_record.w3w
+                data["ip"] = last_record.ip
     return render_template("dashboard.html", title='Dashboard', data = data)
 
 # Logout route

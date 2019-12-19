@@ -1,3 +1,4 @@
+var LATLON = L.marker(L.latLng(LAT,LON));
 var mymap = L.map('map').setView([LATLON], 13);
 var marker = L.marker([LATLON]).addTo(mymap);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
