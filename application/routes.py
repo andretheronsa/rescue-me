@@ -135,7 +135,11 @@ def dashboard():
             if last_record:
                 data["latitude"] = last_record.latitude
                 data["longitude"] = last_record.longitude
+                data["positionAccuracy"] = last_record.positionAccuracy
+                data["altitude"] = last_record.altitude
                 data["altitudeAccuracy"] = last_record.altitudeAccuracy
+                data["speed"] = last_record.speed
+                data["heading"] = last_record.heading
                 data["W3W"] = last_record.w3w
                 data["ip"] = last_record.ip
     return render_template("dashboard.html", title='Dashboard', data = data)

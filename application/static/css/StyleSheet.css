@@ -1,0 +1,9 @@
+#mapid {
+    width: 75%;
+    height: 600px;
+    position: absolute;
+    margin:10;
+    padding:10; 
+    border: 1px solid black;
+    border-radius: 8px;
+  }
