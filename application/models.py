@@ -41,6 +41,7 @@ class Track(db.Model):
     
     # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_name = db.Column(db.String(64), db.ForeignKey('user.username'))
     locations = db.relationship('Location', backref='location_id', lazy='dynamic')
     
 class Location(db.Model):

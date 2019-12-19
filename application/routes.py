@@ -61,7 +61,8 @@ def share():
                 "alias": alias,
                 "url": url,
                 "share_team": share,
-                "user_id": current_user.id}
+                "user_id": current_user.id,
+                "user_name": current_user.username}
         track = Track(**data)
         try:
             db.session.add(track)

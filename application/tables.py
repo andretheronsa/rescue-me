@@ -11,6 +11,7 @@ class TrackTable(Table):
     url = Col('Share link')
     create_time = Col('Link create time')
     user_id = Col('Owner')
+    user_name = Col('Name')
     
     name = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
     
