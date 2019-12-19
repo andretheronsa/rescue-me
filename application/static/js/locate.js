@@ -1,5 +1,6 @@
 var id = 0
 var output = document.getElementById('output')
+output.innerHTML = "Press button and allow tracking in your browser. <br> Location data will be uploaded every 30s as long as browser window is open"
 var map = document.getElementById("map")
 var w3w = document.getElementById("w3w")
 function locate(){
