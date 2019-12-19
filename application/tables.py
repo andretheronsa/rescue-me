@@ -20,7 +20,7 @@ class LocationTable(Table):
 class TrackTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'table-condensed']
     id = Col('Id', show=False)
-    alias = Col('Alias')
+    alias = Col('Name')
     url = Col('Share link')
     create_time = Col('Link create time')
     user_id = Col('Owner')

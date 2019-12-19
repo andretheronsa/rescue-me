@@ -109,14 +109,15 @@ def locate(name):
         except Exception as e:
             print(e)
             sys.stdout.flush()
-            static_data["info"] = "Location not could not be uploaded to server"       
+            static_data["info"] = "Location not could not be uploaded to server"
+        return render_template("locate.html", title='Locate', static_data=static_data, data=data)
     return render_template("locate.html", title='Locate', static_data=static_data, data=data)
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
     # Create data object to send to html
-    allowed_track_items = Track.query.filter(or_(Track.user_id == current_user.id, Track.share_team == 1)).all()
+    allowed_track_items = Track.query.filter(or_(Track.user_id == current_user.id, Track.share_team == True)).all()
     track_table = TrackTable(allowed_track_items)
     location_items = Location.query.filter().all()
     location_table = LocationTable(location_items)
