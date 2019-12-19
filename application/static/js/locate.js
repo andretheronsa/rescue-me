@@ -77,7 +77,7 @@ function locate(){
   });
   }
   monitorLocation()
-  id = setInterval(monitorLocation, 60000);
+  id = setInterval(monitorLocation, 30000);
 }
 function stopMonitoring(id){
   clearInterval(id)

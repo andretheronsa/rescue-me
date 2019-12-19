@@ -10,12 +10,11 @@
     </div>
     <h2>{{ url }}</h2>
     <p>
-        Share this link to patient and instruct them to:<br>
+        <br>Share this link with patient and instruct them to:<br>
         1. Follow the link<br>
         2. Press the start tracking button<br>
-        3.Allow tracking on the page<br>
-        Patient location will update every minute as long as the page is open
+        3. Allow tracking on the page<br>
+        Patient location will update every 30 seconds as long as the page is open and there is a connection
         If page is kept open the location display will keep updating even without a connection (but not upload to server)
     </p>
-    <h2><a href="{{ url_for('dashboard') }}">Go to dashboard to track link</a></h2>
 {% endblock %}

@@ -10,7 +10,7 @@
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
-            <a href="{{ url_for('share') }}">Create Tracking Link</a>
+            <a href="{{ url_for('share') }}">Share</a>
             <a href="{{ url_for('dashboard') }}">Dashboard</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}

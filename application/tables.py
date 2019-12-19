@@ -12,7 +12,8 @@ class TrackTable(Table):
     create_time = Col('Link create time')
     user_name = Col('Owner') 
     
-    name = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
+    showTrackButton = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
+    showPointButton = ButtonCol('Show LKP', 'dashboard', url_kwargs=dict(track_id='id'))
     
     def sort_url(self, col_key, reverse=False):
         if reverse:
