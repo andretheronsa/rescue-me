@@ -20,6 +20,7 @@ class User(UserMixin, db.Model):
     
     # Relationships
     tracks = db.relationship('Track', backref='username', lazy='dynamic')
+    
   
     # Functions
     def set_password(self, password):
@@ -38,10 +39,10 @@ class Track(db.Model):
     url = db.Column(db.String(70), unique=True)
     create_time = db.Column(db.DateTime, index=True, default=dt.now)
     share_team = db.Column(db.Boolean())
+    user_name = db.Column(db.String(64))
     
     # Relationships
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_name = db.Column(db.String(64), db.ForeignKey('user.username'))
     locations = db.relationship('Location', backref='location_id', lazy='dynamic')
     
 class Location(db.Model):
