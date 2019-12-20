@@ -30,6 +30,7 @@ if(point == 'true'){
         ).openPopup()
     };
 if(line == 'true'){
+    var latlngs = line_data;
     var polyline = L.polyline(latlngs, {
         color: 'red',
         weight: 3,
