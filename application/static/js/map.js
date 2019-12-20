@@ -28,14 +28,9 @@ if(point == 'true'){
         "<br>Heading (deg): "+heading+
         "<br>What3Words: "+ W3W
         ).openPopup()
-    };
+   };
 if(line == 'true'){
     var latlngs = line_data;
-    var polyline = L.polyline(latlngs, {
-        color: 'red',
-        weight: 3,
-        opacity: 0.5,
-        smoothFactor: 1
-    }).addTo(map);
+    var polyline = L.polyline(latlngs).addTo(map);
     map.fitBounds(polyline.getBounds());
-}
+};
