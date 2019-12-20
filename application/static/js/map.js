@@ -12,7 +12,7 @@ if(point == 'true'){
             var circle = L.circle([latitude, longitude], {
                 color: 'red',
                 fillColor: '#f03',
-                fillOpacity: 0.5,
+                fillOpacity: 0.2,
                 radius: rad_num
             }).addTo(map);
         }
@@ -30,7 +30,6 @@ if(point == 'true'){
         ).openPopup()
    };
 if(line == 'true'){
-    var latlngs = line_data;
-    var polyline = L.polyline(latlngs).addTo(map);
+    var polyline = L.polyline(line_data, {color: 'red'}).addTo(map);
     map.fitBounds(polyline.getBounds());
 };

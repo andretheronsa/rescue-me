@@ -148,8 +148,8 @@ def dashboard():
             line_data = []
             for item in location_items:
                 line_data.append([float(item.latitude), float(item.longitude)])
-                data["latitude"] = float(item.latitude)
-                data["longitude"] = float(item.longitude)
+                data["latitude"] = item.latitude
+                data["longitude"] = item.longitude
             data["line_data"] = json.dumps(line_data)
             data["line"] = 'true'
         # Details to display record on map if found
