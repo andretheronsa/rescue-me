@@ -30,10 +30,11 @@ if(point == 'true'){
         ).openPopup()
     };
 if(line == 'true'){
-    var Polyline = L.polyline(line_data, {
+    var polyline = L.polyline(latlngs, {
         color: 'red',
         weight: 3,
         opacity: 0.5,
         smoothFactor: 1
     }).addTo(map);
+    map.fitBounds(polyline.getBounds());
 }
