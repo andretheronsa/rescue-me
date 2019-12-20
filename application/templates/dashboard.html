@@ -9,7 +9,8 @@
     {{ data.track_table }}
     {{ data.location_table }}
   </table>
-  {% if data.latitude is defined %}
+  {% if data.point or data.line %}
+    <div id="debug"></div>
     <div id="mapid"></div>
     <script>
       var GOOGLE_API = '{{ data.GOOGLE_API }}',
@@ -22,9 +23,10 @@
             heading = '{{ data.heading }}',
             W3W = '{{ data.W3W }}',
             MAPBOX_API = '{{ data.MAPBOX_API }}',
-            TRACK_ID = '{{ data.track_id }}',
             timeStamp = '{{ data.timeStamp }}',
-            IP = '{{ data.ip }}';
+            point = '{{ data.point }}',
+            line = '{{ data.line }}',
+            line_data = '{{ data.line_data }}';
     </script>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="

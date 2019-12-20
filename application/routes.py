@@ -5,6 +5,7 @@ from flask import render_template, request, jsonify, url_for, redirect, session,
 from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask import current_app as app
+from flask import json
 from application.models import db, User, Track, Location
 from application.forms import LoginForm, ShareForm
 from application.tables import LocationTable, TrackTable
@@ -120,40 +121,47 @@ def locate(name):
 @login_required
 def dashboard():
     data = {"GOOGLE_API": app.config["GOOGLE_API"], "MAPBOX_API": app.config["MAPBOX_API"]}
-    # Create data object to send to html with tables and map details
+    # Get track table
     allowed_track_items = Track.query.filter(or_(Track.user_id == current_user.id, Track.share_team == True)).all()
     track_table = TrackTable(allowed_track_items)
     data["track_table"] = track_table
+    # User requested a specefic track log show table and map
     if request.method == "POST":
-        # Track was called for - create track polygon and send to map - also display table
+        # Track was called for - track must be made as well as table of all locations
         if "track_id" in request.args:
             track_id = request.args["track_id"]
-            data["track_id"] = track_id
-            # This should become entire track
-            required_record = Location.query.filter_by(track_id=track_id).order_by(Location.timeStamp.desc()).first()
-        # Specific location entry was clicked on - display point and accuracy
+            point = False
+        # Specific location entry was clicked on - overlay point and accuracy
         if "location_id" in request.args:
             location_id = request.args["location_id"]
             # Still need to show the location table so get ID from location
             track_id = Location.query.filter_by(id=location_id).first().track_id
-            data["track_id"] = track_id
-            required_record = Location.query.filter_by(id=location_id).first()
+            point = Location.query.filter_by(id=location_id).first()
         # Get location table
         location_items = Location.query.filter_by(track_id=track_id).all()
-        location_table = LocationTable(location_items)
-        data["location_table"] = location_table
+        # Check if any entries
+        if len(location_items) > 0:
+            # Display table
+            location_table = LocationTable(location_items)
+            data["location_table"] = location_table
+            # Create line data
+            line_data = []
+            for item in location_items:
+                line_data.append([float(item.latitude), float(item.longitude)])
+            data["line_data"] = json.dumps(line_data)
+            data["line"] = 'true'
         # Details to display record on map if found
-        if required_record:
-            data["latitude"] = required_record.latitude
-            data["longitude"] = required_record.longitude
-            data["positionAccuracy"] = required_record.positionAccuracy
-            data["altitude"] = required_record.altitude
-            data["altitudeAccuracy"] = required_record.altitudeAccuracy
-            data["speed"] = required_record.speed
-            data["heading"] = required_record.heading
-            data["W3W"] = required_record.w3w
-            data["ip"] = required_record.ip
-            data["timeStamp"] = required_record.timeStamp
+        if point:
+            data["point"] = 'true'
+            data["latitude"] = point.latitude
+            data["longitude"] = point.longitude
+            data["positionAccuracy"] = point.positionAccuracy
+            data["altitude"] = point.altitude
+            data["altitudeAccuracy"] = point.altitudeAccuracy
+            data["speed"] = point.speed
+            data["heading"] = point.heading
+            data["W3W"] = point.w3w
+            data["timeStamp"] = point.timeStamp
     return render_template("dashboard.html", title='Dashboard', data = data)
 
 # Logout route
