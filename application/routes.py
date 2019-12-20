@@ -120,29 +120,40 @@ def locate(name):
 @login_required
 def dashboard():
     data = {"GOOGLE_API": app.config["GOOGLE_API"], "MAPBOX_API": app.config["MAPBOX_API"]}
-    # Create data object to send to html
+    # Create data object to send to html with tables and map details
     allowed_track_items = Track.query.filter(or_(Track.user_id == current_user.id, Track.share_team == True)).all()
     track_table = TrackTable(allowed_track_items)
     data["track_table"] = track_table
     if request.method == "POST":
+        # Track was called for - create track polygon and send to map - also display table
         if "track_id" in request.args:
             track_id = request.args["track_id"]
             data["track_id"] = track_id
-            location_items = Location.query.filter_by(track_id=track_id).all()
-            location_table = LocationTable(location_items)
-            data["location_table"] = location_table
-            last_record = Location.query.filter_by(track_id=track_id).order_by(Location.timeStamp.desc()).first()
-            if last_record:
-                data["latitude"] = last_record.latitude
-                data["longitude"] = last_record.longitude
-                data["positionAccuracy"] = last_record.positionAccuracy
-                data["altitude"] = last_record.altitude
-                data["altitudeAccuracy"] = last_record.altitudeAccuracy
-                data["speed"] = last_record.speed
-                data["heading"] = last_record.heading
-                data["W3W"] = last_record.w3w
-                data["ip"] = last_record.ip
-                data["timeStamp"] = last_record.timeStamp
+            # This should become entire track
+            required_record = Location.query.filter_by(track_id=track_id).order_by(Location.timeStamp.desc()).first()
+        # Specific location entry was clicked on - display point and accuracy
+        if "location_id" in request.args:
+            location_id = request.args["location_id"]
+            # Still need to show the location table so get ID from location
+            track_id = Location.query.filter_by(id=location_id).first().track_id
+            data["track_id"] = track_id
+            required_record = Location.query.filter_by(id=location_id).first()
+        # Get location table
+        location_items = Location.query.filter_by(track_id=track_id).all()
+        location_table = LocationTable(location_items)
+        data["location_table"] = location_table
+        # Details to display record on map if found
+        if required_record:
+            data["latitude"] = required_record.latitude
+            data["longitude"] = required_record.longitude
+            data["positionAccuracy"] = required_record.positionAccuracy
+            data["altitude"] = required_record.altitude
+            data["altitudeAccuracy"] = required_record.altitudeAccuracy
+            data["speed"] = required_record.speed
+            data["heading"] = required_record.heading
+            data["W3W"] = required_record.w3w
+            data["ip"] = required_record.ip
+            data["timeStamp"] = required_record.timeStamp
     return render_template("dashboard.html", title='Dashboard', data = data)
 
 # Logout route

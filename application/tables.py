@@ -14,7 +14,6 @@ class TrackTable(Table):
     user_name = Col('Owner') 
     
     showTrackButton = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
-    showPointButton = ButtonCol('Show LKP', 'dashboard', url_kwargs=dict(track_id='id'))
     
     def sort_url(self, col_key, reverse=False):
         if reverse:
@@ -29,17 +28,17 @@ class LocationTable(Table):
 
     id = Col('Id', show=False)
     timeStamp = Col('GPS logtime')
-    latitude = Col('Latitude')
-    longitude = Col('Longitude')
-    positionAccuracy = Col('Position Accuracy (m)')
-    altitude = Col('Altitude (m above WGS84)')
-    altitudeAccuracy = Col('Altitude Accuracy (m)')
-    speed = Col('Speed (m/s)')
-    heading = Col('Heading (deg)')
+    latitude = Col('Latitude (DD)')
+    longitude = Col('Longitude (DD)')
+    positionAccuracy = Col('Position Accuracy (M)')
+    altitude = Col('Altitude (M above WGS84)')
+    altitudeAccuracy = Col('Altitude Accuracy (M)')
+    speed = Col('Speed (M/S)')
+    heading = Col('Heading (Deg)')
     w3w = Col('What3words')
     ip = Col('IP')
     
-    showTrackButton = ButtonCol('Show point', 'dashboard', url_kwargs=dict(track_id='id'))
+    showTrackButton = ButtonCol('Show point', 'dashboard', url_kwargs=dict(location_id='id'))
     
     def sort_url(self, col_key, reverse=False):
         if reverse:
