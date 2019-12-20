@@ -142,6 +142,7 @@ def dashboard():
                 data["heading"] = last_record.heading
                 data["W3W"] = last_record.w3w
                 data["ip"] = last_record.ip
+                data["timeStamp"] = last_record.timeStamp
     return render_template("dashboard.html", title='Dashboard', data = data)
 
 # Logout route

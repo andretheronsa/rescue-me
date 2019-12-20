@@ -7,9 +7,10 @@ class TrackTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'table-condensed']
     allow_sort = True
     id = Col('Id', show=False)
+    
+    create_time = Col('Create time')
     alias = Col('Name')
     url = Col('Share link')
-    create_time = Col('Link create time')
     user_name = Col('Owner') 
     
     showTrackButton = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
@@ -37,7 +38,9 @@ class LocationTable(Table):
     heading = Col('Heading (deg)')
     w3w = Col('What3words')
     ip = Col('IP')
-        
+    
+    showTrackButton = ButtonCol('Show point', 'dashboard', url_kwargs=dict(track_id='id'))
+    
     def sort_url(self, col_key, reverse=False):
         if reverse:
             direction =  'desc'

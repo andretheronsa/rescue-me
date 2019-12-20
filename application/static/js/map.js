@@ -17,7 +17,8 @@ if(positionAccuracy != 'None'){
     }
 }
 var marker = L.marker([latitude, longitude]).addTo(mymap);
-marker.bindPopup("Latitude (dec deg): "+latitude+
+marker.bindPopup("Time: "+timeStamp+
+    "<br>Latitude (dec deg): "+latitude+
     "<br>longitude (dec deg): "+longitude+
     "<br>altitude (WGS84): "+altitude+
     "<br>Position Accuracy (m): "+positionAccuracy+
