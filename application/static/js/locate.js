@@ -1,8 +1,11 @@
 var id = 0
 var output = document.getElementById('output')
+var server_status = document.getElementById('server_status')
+server_status.innerHTML = "Location not yet submitted"
 output.innerHTML = "Toggle tracking button and allow tracking in your browser. <br> Location data will be uploaded every 30s as long as browser window is open"
 var map = document.getElementById("map")
 var w3w = document.getElementById("w3w")
+var accurate = Number(10000)
 function locate(){
   function monitorLocation(position) {
     if(geoPosition.init()) {
@@ -50,7 +53,8 @@ function locate(){
             "heading": position.coords.heading,
             "timeStamp": Date(position.timestamp).toLocaleString()
           }),
-          datatype: "json"
+          datatype: "json",
+          success: server_status.innerHTML = "Location submitted"
         });
   }
   function mapLocation(position) {

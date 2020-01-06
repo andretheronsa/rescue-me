@@ -81,7 +81,8 @@ def locate(name):
     data = False
     static_data = {"GOOGLE_API" : app.config["GOOGLE_API"],
                    "W3W_API" : app.config["W3W_API"],
-                   "url_valid" : True}
+                   "url_valid" : True
+                   }
     # Ensure track ID has been issued
     exists = db.session.query(Track.name).filter_by(name=name).scalar() is not None
     if not exists:
@@ -105,15 +106,14 @@ def locate(name):
         geocoder = what3words.Geocoder(app.config["W3W_API"])
         w3w = geocoder.convert_to_3wa(what3words.Coordinates(data["latitude"], data["longitude"]))
         data["w3w"] = w3w["words"]
+        # Add message to user
         location_insert = Location(**data)
         try:
             db.session.add(location_insert)
             db.session.commit()
-            static_data["info"] = "Succesfully uploaded user location measured at {} to db at: {}".format(data["timeStamp"], dt.now())
         except Exception as e:
             print(e)
             sys.stdout.flush()
-            static_data["info"] = "Location not could not be uploaded to server"
         return render_template("locate.html", title='Locate', static_data=static_data, data=data)
     return render_template("locate.html", title='Locate', static_data=static_data, data=data)
 

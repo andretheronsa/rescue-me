@@ -30,8 +30,6 @@ if(point == 'true'){
         ).openPopup()
    };
 if(line == 'true'){
-    console.log(typeof line_data);
-    console.log(line_data);
     var polyline = L.polyline(line_data, {color: 'red'}).addTo(map);
     map.fitBounds(polyline.getBounds());
 };
