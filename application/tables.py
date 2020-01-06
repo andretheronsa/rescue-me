@@ -27,9 +27,9 @@ class LocationTable(Table):
     allow_sort = True
 
     id = Col('Id', show=False)
-    timeStamp = Col('GPS logtime')
-    latitude = Col('Latitude (DD)')
-    longitude = Col('Longitude (DD)')
+    timeStamp = Col('Timestamp (device local time)')
+    latitude = Col('Latitude (Decimal Degree WGS84)')
+    longitude = Col('Longitude (Decimal Degree WGS84)')
     positionAccuracy = Col('Position Accuracy (M)')
     altitude = Col('Altitude (M above WGS84)')
     altitudeAccuracy = Col('Altitude Accuracy (M)')

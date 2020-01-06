@@ -58,7 +58,7 @@ function locate(){
     var img_url = "https://maps.googleapis.com/maps/api/staticmap?"+
       "center="+latlon+"&"+
       "zoom=17"+
-      "&scale=2&"+
+      "&scale=1&"+
       "size=600x300&"+
       "maptype=hybrid&"+
       "key="+GOOGLE_API+"&"+
