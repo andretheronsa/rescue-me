@@ -5,11 +5,15 @@
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
   <link href="/static/css/StyleSheet.css" rel="stylesheet">
+  <h2>Available tracks</h2>
   <table class="table table-striped table-bordered table-condensed">
     {{ data.track_table }}
+  </table>
+  <table class="table table-striped table-bordered table-condensed">
     {{ data.location_table }}
   </table>
   {% if data.point or data.line %}
+    <h2>Map</h2>
     <div id="mapid"></div>
     <script>
       var GOOGLE_API = '{{ data.GOOGLE_API }}',

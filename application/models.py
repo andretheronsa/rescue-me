@@ -3,6 +3,9 @@ from flask_login import LoginManager
 from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+import pytz
+
+tz = pytz.timezone('Africa/Johannesburg')
 
 # Define user loader
 @login.user_loader
@@ -37,7 +40,7 @@ class Track(db.Model):
     name = db.Column(db.String(30), index=True, unique=True)
     alias = db.Column(db.String(30), index=True)
     url = db.Column(db.String(70), unique=True)
-    create_time = db.Column(db.DateTime, index=True, default=dt.now)
+    create_time = db.Column(db.DateTime, index=True, default=dt.now(tz))
     share_team = db.Column(db.Boolean())
     user_name = db.Column(db.String(64))
     

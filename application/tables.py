@@ -5,7 +5,6 @@ from flask import url_for
 
 class TrackTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'table-condensed']
-    allow_sort = True
     id = Col('Id', show=False)
     
     create_time = Col('Create time')
@@ -14,17 +13,9 @@ class TrackTable(Table):
     user_name = Col('Owner') 
     
     showTrackButton = ButtonCol('Show track', 'dashboard', url_kwargs=dict(track_id='id'))
-    
-    def sort_url(self, col_key, reverse=False):
-        if reverse:
-            direction =  'desc'
-        else:
-            direction = 'asc'
-        return url_for('dashboard', sort=col_key, direction=direction)
 
 class LocationTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'table-condensed']
-    allow_sort = True
 
     id = Col('Id', show=False)
     timeStamp = Col('Timestamp (device local time)')
@@ -39,10 +30,3 @@ class LocationTable(Table):
     ip = Col('IP')
     
     showTrackButton = ButtonCol('Show point', 'dashboard', url_kwargs=dict(location_id='id'))
-    
-    def sort_url(self, col_key, reverse=False):
-        if reverse:
-            direction =  'desc'
-        else:
-            direction = 'asc'
-        return url_for('dashboard', sort=col_key, direction=direction)
