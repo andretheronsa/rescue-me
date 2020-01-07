@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 import pytz
 
+tz = pytz.timezone('Africa/Johannesburg')
+
 # Define user loader
 @login.user_loader
 def load_user(id):
@@ -38,7 +40,7 @@ class Track(db.Model):
     name = db.Column(db.String(30), index=True, unique=True)
     alias = db.Column(db.String(30), index=True)
     url = db.Column(db.String(70), unique=True)
-    create_time = db.Column(db.DateTime, index=True, default=dt.utcnow)
+    create_time = db.Column(db.DateTime, index=True, default=dt.now(tz))
     share_team = db.Column(db.Boolean())
     user_name = db.Column(db.String(64))
     
@@ -52,7 +54,7 @@ class Location(db.Model):
     # Fields
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(15))
-    logtime = db.Column(db.DateTime, index=True, default=dt.now)
+    logtime = db.Column(db.DateTime, index=True, default=dt.now(tz))
     latitude = db.Column(db.Numeric(8,6))
     longitude = db.Column(db.Numeric(9,6))
     positionAccuracy = db.Column(db.Float())
