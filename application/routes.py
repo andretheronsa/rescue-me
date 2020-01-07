@@ -91,7 +91,7 @@ def locate(name):
         # Ensure track ID has not expired yet
         track_time = db.session.query(Track.create_time).filter_by(name=name).scalar()
         track_time_db = date_parser.parse(track_time.strftime('%c'))
-        current_time = dt.now()
+        current_time = dt.utcnow()
         difference = current_time - track_time_db 
         if difference.days >= 3:
             static_data["url_valid"] = False
