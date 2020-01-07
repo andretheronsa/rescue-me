@@ -99,9 +99,7 @@ def locate(name):
     if request.method == "POST":
         # Parse position object return
         data = request.get_json(force=True)
-        print(data["timeStamp"])
-        data["timeStamp"] = date_parser.parse(data["timeStamp"].split("(")[0])
-        print(data["timeStamp"])
+        data["timeStamp"] = date_parser.parse(data["timeStamp"].split("GMT")[0])
         # Insert extra info about request
         data["ip"] = request.remote_addr
         data["track_id"] = db.session.query(Track.id).filter_by(name=name)
