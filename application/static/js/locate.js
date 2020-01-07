@@ -37,7 +37,7 @@ function locate(){
       "<br>Longitude (decimal degrees): " + Number(position.coords.longitude).toFixed(5) +
       "<br>Altitude (meters): " + Number(position.coords.altitude).toFixed(0) +
       "<br>Accuracy (meters): " + Number(position.coords.accuracy).toFixed(0) +
-      "<br>Time located: " + Date(position.timestamp).toUTCString();
+      "<br>Time located: " + Date(position.timestamp);
   }
   function sendLocation(position) {
        $.ajax({
@@ -51,7 +51,7 @@ function locate(){
             "altitudeAccuracy": position.coords.altitudeAccuracy,
             "speed": position.coords.speed,
             "heading": position.coords.heading,
-            "timeStamp": Date(position.timestamp).toUTCString()
+            "timeStamp": Date(position.timestamp)
           }),
           datatype: "json",
           success: server_status.innerHTML = "Location submitted"
