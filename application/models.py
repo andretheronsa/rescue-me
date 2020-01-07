@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 import pytz
 
+# Make timezone local
 tz = pytz.timezone('Africa/Johannesburg')
 
 # Define user loader
