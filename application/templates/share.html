@@ -8,7 +8,9 @@
             {{ wtf.quick_form(form) }}
         </div>
     </div>
-    <h2>{{ url }}</h2>
+    {% if url %}
+        <h2>{{ url }}</h2>
+    {% endif %}
     <p>
         <br>Share this link with patient and instruct them to:<br>
         1. Follow the link<br>

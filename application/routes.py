@@ -73,7 +73,7 @@ def share():
             sys.stdout.flush()
             url="Could not generate track URL"
     else:
-        url=""
+        url=False
     return render_template("share.html", url=url, title='Share', form=form)
 
 @app.route("/<name>", methods=['GET', 'POST'])
