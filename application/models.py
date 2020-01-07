@@ -52,7 +52,6 @@ class Location(db.Model):
     # Fields
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(15))
-    logtime = db.Column(db.DateTime(timezone=True), index=True, default=func.now())
     latitude = db.Column(db.Numeric(8,6))
     longitude = db.Column(db.Numeric(9,6))
     positionAccuracy = db.Column(db.Float())
