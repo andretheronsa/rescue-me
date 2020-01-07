@@ -38,7 +38,7 @@ class Track(db.Model):
     name = db.Column(db.String(30), index=True, unique=True)
     alias = db.Column(db.String(30), index=True)
     url = db.Column(db.String(70), unique=True)
-    create_time = db.Column(db.DateTime, index=True, default=dt.now)
+    create_time = db.Column(db.DateTime, index=True, default=dt.utcnow)
     share_team = db.Column(db.Boolean())
     user_name = db.Column(db.String(64))
     
