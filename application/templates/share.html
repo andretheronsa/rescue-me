@@ -9,7 +9,8 @@
         </div>
     </div>
     {% if url %}
-        <h2>{{ url }}</h2>
+        <h2 id="p1">{{ url }}</h2>
+        <button onclick="copyToClipboard('#p1')">Copy link</button>
     {% endif %}
     <p>
         <br>Share this link with patient and instruct them to:<br>
@@ -22,4 +23,13 @@
     </p>
     <h3>View all your tracks</h3>
     <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <script>
+        function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        }
+    </script>
 {% endblock %}
