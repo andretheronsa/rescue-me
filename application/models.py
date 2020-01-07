@@ -4,6 +4,7 @@ from datetime import datetime as dt
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 import pytz
+from sqlalchemy.sql import func
 
 # Make timezone local
 tz = pytz.timezone('Africa/Johannesburg')
@@ -41,7 +42,7 @@ class Track(db.Model):
     name = db.Column(db.String(30), index=True, unique=True)
     alias = db.Column(db.String(30), index=True)
     url = db.Column(db.String(70), unique=True)
-    create_time = db.Column(db.DateTime, index=True, default=dt.now(tz))
+    create_time = db.Column(db.DateTime(timezone=True), index=True, default=func.now())
     share_team = db.Column(db.Boolean())
     user_name = db.Column(db.String(64))
     
@@ -55,7 +56,7 @@ class Location(db.Model):
     # Fields
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(15))
-    logtime = db.Column(db.DateTime, index=True, default=dt.now(tz))
+    logtime = db.Column(db.DateTime(timezone=True), index=True, default=func.now())
     latitude = db.Column(db.Numeric(8,6))
     longitude = db.Column(db.Numeric(9,6))
     positionAccuracy = db.Column(db.Float())
