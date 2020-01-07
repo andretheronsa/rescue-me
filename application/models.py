@@ -6,9 +6,6 @@ from flask_login import UserMixin
 import pytz
 from sqlalchemy.sql import func
 
-# Make timezone local
-tz = pytz.timezone('Africa/Johannesburg')
-
 # Define user loader
 @login.user_loader
 def load_user(id):
