@@ -173,6 +173,6 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# Useful apps
-def base(num,b=26,numerals="abcdefghijklmnopqrstuvwxyz"):
+# Calculate numeral associated with letter - exclude x as x-ray is ugly with a confusing dash
+def base(num,b=25,numerals="abcdefghijklmnopqrstuvwyz"):
     return ((num == 0) and numerals[0]) or (base(num // b, b, numerals).lstrip(numerals[0]) + numerals[num % b])
