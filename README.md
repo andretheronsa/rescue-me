@@ -66,3 +66,24 @@ RescueMe
 * Geolocation cannot happen if device's location services are not on.
 * Geolocation on a website shouldn't happen on page load - user interaction via a button is recommended.
 * If patient denies geolocation access to the web browser we cannot ask for it again - the patient then needs to revert that descision for the website manually on his device browser settings.
+
+**What it is not**
+* A search management tool
+* A rescuer tracking tool
+* A patient communication tool
+
+**Feature requests**
+* Client side button to force update and location send
+* CLient side data storage when reception is down and bulk upload
+* Google earth to dashboard
+* KMZ track/point export
+* Mobile friendly map
+* Zoom level on maps
+* Scrolling table
+
+**Costs and deploy limits**
+* Heroku platform
+* Heroku postgres
+* Mapbox
+* Google API
+* w3w API
