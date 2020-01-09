@@ -28,7 +28,7 @@ function locate(){
     if(err.code == 1) {
       output.innerHTML = "Error: Location access was not approved for tracking - please give sete permissions in options or try again in incognito mode"
     } else if( err.code == 2) {
-      output.innerHTML = "Error: Position is unavailable!";
+      output.innerHTML = "Error: Position is unavailable! Please ensure Location services is on";
     }
   }
   function displayLocation(position) {
