@@ -71,6 +71,7 @@ RescueMe
 * A search management tool
 * A rescuer tracking tool
 * A patient communication tool
+* An incident logging tool
 
 **Feature requests**
 * Client side button to force update and location send
